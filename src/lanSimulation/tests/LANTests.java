@@ -197,47 +197,60 @@ and if it does rename "useOutput.txt" in "expectedOutput.txt". From then on
 the tests should work as expected.
 */
     public void testOutput () {
-        Network network = Network.DefaultExample();
-	String generateOutputFName = "useOutput.txt", expectedOutputFName = "expectedOutput.txt";
-	FileWriter generateOutput;
-	StringBuffer buf = new StringBuffer(500);
-	StringWriter report = new StringWriter(500);
+    	Network network = Network.DefaultExample();
+		String generateOutputFName = "useOutput.txt", expectedOutputFName = "expectedOutput.txt";
+		FileWriter generateOutput;
+		StringBuffer buf = new StringBuffer(500);
+		StringWriter report = new StringWriter(500);
 
-	try {
-	    generateOutput = new FileWriter(generateOutputFName);
-	} catch (IOException f2exc) {
-	    assertTrue("Could not create '" + generateOutputFName + "'", false);
-	    return;
-	};
+		try {
+			generateOutput = new FileWriter(generateOutputFName);
+		} catch (IOException f2exc) {
+			assertTrue("Could not create '" + generateOutputFName + "'", false);
+			return;
+		}
+		;
 
-	try {
-	    buf.append("---------------------------------ASCII------------------------------------------\n");
-	    network.printOn(buf);
-	    buf.append("\n\n---------------------------------HTML------------------------------------------\n");
-	    network.printHTMLOn(buf);
-	    buf.append("\n\n---------------------------------XML------------------------------------------\n");
-	    network.printXMLOn(buf);
-	    generateOutput.write(buf.toString());
-	    report.write("\n\n---------------------------------SCENARIO: Print Success --------------------------\n");
-	    network.requestWorkstationPrintsDocument("Filip", "Hello World", "Andy", report);
-	    report.write("\n\n---------------------------------SCENARIO: PrintFailure (UnkownPrinter) ------------\n");
-	    network.requestWorkstationPrintsDocument("Filip", "Hello World", "UnknownPrinter", report);
-	    report.write("\n\n---------------------------------SCENARIO: PrintFailure (print on Workstation) -----\n");
-	    network.requestWorkstationPrintsDocument("Filip", "Hello World", "Hans", report);
-	    report.write("\n\n---------------------------------SCENARIO: PrintFailure (print on Node) -----\n");
-	    network.requestWorkstationPrintsDocument("Filip", "Hello World", "n1", report);
-	    report.write("\n\n---------------------------------SCENARIO: Print Success Postscript-----------------\n");
-	    network.requestWorkstationPrintsDocument("Filip", "!PS Hello World in postscript", "Andy", report);
-	    report.write("\n\n---------------------------------SCENARIO: Print Failure Postscript-----------------\n");
-	    network.requestWorkstationPrintsDocument("Filip", "!PS Hello World in postscript", "Hans", report);
-	    report.write("\n\n---------------------------------SCENARIO: Broadcast Success -----------------\n");
-	    network.requestBroadcast(report);
-	    generateOutput.write(report.toString());
-	} catch (IOException exc) {
-	} finally {
-	    try {generateOutput.close();} catch (IOException exc) {};
-	};
-        assertTrue("Generated output is not as expected ", compareFiles(generateOutputFName, expectedOutputFName));
+		try {
+			buf.append("---------------------------------ASCII------------------------------------------\n");
+			network.printOn(buf);
+			buf.append("\n\n---------------------------------HTML------------------------------------------\n");
+			network.printHTMLOn(buf);
+			buf.append("\n\n---------------------------------XML------------------------------------------\n");
+			network.printXMLOn(buf);
+			generateOutput.write(buf.toString());
+			report.write("\n\n---------------------------------SCENARIO: Print Success --------------------------\n");
+			network.requestWorkstationPrintsDocument("Filip", "Hello World",
+					"Andy", report);
+			report.write("\n\n---------------------------------SCENARIO: PrintFailure (UnkownPrinter) ------------\n");
+			network.requestWorkstationPrintsDocument("Filip", "Hello World",
+					"UnknownPrinter", report);
+			report.write("\n\n---------------------------------SCENARIO: PrintFailure (print on Workstation) -----\n");
+			network.requestWorkstationPrintsDocument("Filip", "Hello World",
+					"Hans", report);
+			report.write("\n\n---------------------------------SCENARIO: PrintFailure (print on Node) -----\n");
+			network.requestWorkstationPrintsDocument("Filip", "Hello World",
+					"n1", report);
+			report.write("\n\n---------------------------------SCENARIO: Print Success Postscript-----------------\n");
+			network.requestWorkstationPrintsDocument("Filip",
+					"!PS Hello World in postscript", "Andy", report);
+			report.write("\n\n---------------------------------SCENARIO: Print Failure Postscript-----------------\n");
+			network.requestWorkstationPrintsDocument("Filip",
+					"!PS Hello World in postscript", "Hans", report);
+			report.write("\n\n---------------------------------SCENARIO: Broadcast Success -----------------\n");
+			network.requestBroadcast(report);
+			generateOutput.write(report.toString());
+		} catch (IOException exc) {
+		} finally {
+			try {
+				generateOutput.close();
+			} catch (IOException exc) {
+			}
+			;
+		}
+		;
+		assertTrue("Generated output is not as expected ",
+				compareFiles(generateOutputFName, expectedOutputFName));
     }
 
   /*  static public class PreconditionViolationTestCase extends ExceptionTestCase {
@@ -248,8 +261,17 @@ the tests should work as expected.
 	public void test() {
 	    Network network = Network.DefaultExample();
 	    StringWriter report = new StringWriter(100);
-	    network.requestWorkstationPrintsDocument("UnknownWorkstation",
-					      "does not matter", "does not matter", report);
+	    
+	    try{
+	    	network.requestWorkstationPrintsDocument("UnknownWorkstation",
+				      "does not matter", "does not matter", report);
+	    	fail("Exception not thrown");
+	    }catch(AssertionError e){
+	    	
+	    }
+	    
+	    
+	    
 	}
 
   
