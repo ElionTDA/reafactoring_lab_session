@@ -30,6 +30,37 @@ The LAN network architecture is a token ring, implying that packahes will be pas
  */
 public class Network {
 	/**
+Return a <em>Network</em> that may serve as starting point for various experiments.
+Currently, the network looks as follows.
+    <pre>
+    Workstation Filip [Workstation] -> Node -> Workstation Hans [Workstation]
+    -> Printer Andy [Printer] -> ... 
+    </pre>
+<p><strong>Postcondition:</strong>result.isInitialized() & result.consistentNetwork();</p>
+	 */
+	public static Network DefaultExample () {
+		Network network = new Network (2);
+
+		
+		Node wsFilip = new Workstation(Node.WORKSTATION, "Filip");
+		Node n1 = new Node(Node.NODE, "n1");
+		Node wsHans = new Workstation (Node.WORKSTATION, "Hans");
+		Node prAndy = new Printer (Node.PRINTER, "Andy");
+
+		wsFilip.nextNode_ = n1;
+		n1.nextNode_ = wsHans;
+		wsHans.nextNode_ = prAndy;
+		prAndy.nextNode_ = wsFilip;
+
+		network.workstations_.put(wsFilip.name_, wsFilip);
+		network.workstations_.put(wsHans.name_, wsHans);
+		network.firstNode_ = wsFilip;
+
+		assert network.isInitialized();
+		assert network.consistentNetwork();
+		return network;
+	}
+	/**
     Holds a pointer to myself.
     Used to verify whether I am properly initialized.
 	 */
@@ -39,6 +70,7 @@ public class Network {
     Used to ensure that various printing operations return expected behaviour.
 	 */
 	public Node firstNode_;
+
 	/**
     Maps the names of workstations on the actual workstations.
     Used to initiate the requests for the network.
@@ -59,58 +91,20 @@ Construct a <em>Network</em> suitable for holding #size Workstations.
 	}
 
 	/**
-Return a <em>Network</em> that may serve as starting point for various experiments.
-Currently, the network looks as follows.
-    <pre>
-    Workstation Filip [Workstation] -> Node -> Workstation Hans [Workstation]
-    -> Printer Andy [Printer] -> ... 
-    </pre>
-<p><strong>Postcondition:</strong>result.isInitialized() & result.consistentNetwork();</p>
+	 * @param report
+	 * @param author
+	 * @param title
+	 * @param type 
+	 * @throws IOException
 	 */
-	public static Network DefaultExample () {
-		Network network = new Network (2);
-
-		Node wsFilip = new Node (Node.WORKSTATION, "Filip");
-		Node n1 = new Node(Node.NODE, "n1");
-		Node wsHans = new Node (Node.WORKSTATION, "Hans");
-		Node prAndy = new Node (Node.PRINTER, "Andy");
-
-		wsFilip.nextNode_ = n1;
-		n1.nextNode_ = wsHans;
-		wsHans.nextNode_ = prAndy;
-		prAndy.nextNode_ = wsFilip;
-
-		network.workstations_.put(wsFilip.name_, wsFilip);
-		network.workstations_.put(wsHans.name_, wsHans);
-		network.firstNode_ = wsFilip;
-
-		assert network.isInitialized();
-		assert network.consistentNetwork();
-		return network;
-	}
-
-	/**
-Answer whether #receiver is properly initialized.
-	 */
-	public boolean isInitialized () {
-		return (initPtr_ == this);
-	};
-
-	/**
-Answer whether #receiver contains a workstation with the given name.
-<p><strong>Precondition:</strong>this.isInitialized();</p>
-	 */
-	public boolean hasWorkstation (String ws) {
-		//return workstations_.containsKey(ws);
-		Node n;
-
-		assert isInitialized();
-		n = (Node) workstations_.get(ws);
-		if (n == null) {
-			return false;
-		} else {
-			return n.type_ == Node.WORKSTATION;
-		}
+	public void accounting(Writer report, String author, String title, String type) throws IOException {
+		report.write("\tAccounting -- author = '");
+		report.write(author);
+		report.write("' -- title = '");
+		report.write(title);
+		report.write("'\n");
+		report.write(">>> "+type+" job delivered.\n\n");
+		report.flush();
 	};
 
 	/**
@@ -150,7 +144,31 @@ A consistent token ring network
 		if (printersFound == 0) {return false;};//does not contain a printer
 		if (workstationsFound != workstations_.size()) {return false;}; //not all workstations are registered
 		//all verifications succeedeed
-		return true;}
+		return true;};
+
+	/**
+Answer whether #receiver contains a workstation with the given name.
+<p><strong>Precondition:</strong>this.isInitialized();</p>
+	 */
+	public boolean hasWorkstation (String ws) {
+		//return workstations_.containsKey(ws);
+		Node n;
+
+		assert isInitialized();
+		n = (Node) workstations_.get(ws);
+		if (n == null) {
+			return false;
+		} else {
+			return n.type_ == Node.WORKSTATION;
+		}
+	}
+
+	/**
+Answer whether #receiver is properly initialized.
+	 */
+	public boolean isInitialized () {
+		return (initPtr_ == this);
+	}
 
 	/**
 The #receiver is requested to broadcast a message to all nodes.
@@ -253,23 +271,6 @@ Therefore #receiver sends a packet across the token ring network, until either
 		}
 
 		return result;
-	}
-
-	/**
-	 * @param report
-	 * @param author
-	 * @param title
-	 * @param type 
-	 * @throws IOException
-	 */
-	public void accounting(Writer report, String author, String title, String type) throws IOException {
-		report.write("\tAccounting -- author = '");
-		report.write(author);
-		report.write("' -- title = '");
-		report.write(title);
-		report.write("'\n");
-		report.write(">>> "+type+" job delivered.\n\n");
-		report.flush();
 	}
 
 	/**
