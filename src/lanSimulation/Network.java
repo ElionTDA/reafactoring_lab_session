@@ -280,7 +280,7 @@ Return a printable representation of #receiver.
 	public String toString () {
 		assert isInitialized();
 		StringBuffer buf = new StringBuffer(30 * workstations_.size());
-		firstNode_.printOn(this, buf);
+		firstNode_.printOnBucle(this, buf);
 		return buf.toString();
 	}
 
