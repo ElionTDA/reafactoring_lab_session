@@ -42,10 +42,10 @@ Currently, the network looks as follows.
 		Network network = new Network (2);
 
 		
-		Workstation wsFilip = new Workstation(Node.WORKSTATION, "Filip");
-		Node n1 = new Node(Node.NODE, "n1");
-		Workstation wsHans = new Workstation (Node.WORKSTATION, "Hans");
-		Printer prAndy = new Printer (Node.PRINTER, "Andy");
+		Workstation wsFilip = new Workstation("Filip");
+		Node n1 = new Node("n1");
+		Workstation wsHans = new Workstation ("Hans");
+		Printer prAndy = new Printer ("Andy");
 
 		wsFilip.nextNode_ = n1;
 		n1.nextNode_ = wsHans;
@@ -129,15 +129,15 @@ A consistent token ring network
 		iter = workstations_.elements();
 		while (iter.hasMoreElements()) {
 			currentNode = (Node) iter.nextElement();
-			if (currentNode.type_ != Node.WORKSTATION) {return false;};
+			if (!(currentNode instanceof Workstation)) {return false;};
 		};
 		//enumerate the token ring, verifying whether all workstations are registered
 		//also count the number of printers and see whether the ring is circular
 		currentNode = firstNode_;
 		while (! encountered.containsKey(currentNode.name_)) {
 			encountered.put(currentNode.name_, currentNode);
-			if (currentNode.type_ == Node.WORKSTATION) {workstationsFound++;};
-			if (currentNode.type_ == Node.PRINTER) {printersFound++;};
+			if (currentNode instanceof Workstation) {workstationsFound++;};
+			if (currentNode instanceof Printer) {printersFound++;};
 			currentNode = currentNode.nextNode_;
 		};
 		if (currentNode != firstNode_) {return false;};//not circular
@@ -159,7 +159,7 @@ Answer whether #receiver contains a workstation with the given name.
 		if (n == null) {
 			return false;
 		} else {
-			return n.type_ == Node.WORKSTATION;
+			return n instanceof Workstation;
 		}
 	}
 

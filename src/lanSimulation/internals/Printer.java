@@ -2,8 +2,8 @@ package lanSimulation.internals;
 
 public class Printer extends Node{
 
-	public Printer(byte type, String name) {
-		super(type, name);
+	public Printer(String name) {
+		super(name);
 		// TODO Auto-generated constructor stub
 	}
 	@Override
