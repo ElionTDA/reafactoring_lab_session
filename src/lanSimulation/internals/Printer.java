@@ -19,4 +19,10 @@ public class Printer extends Node{
 		buf.append(" [Printer]");
 	}
 
+	private void printOnXML(StringBuffer buf, Node currentNode) {
+		buf.append("<printer>");
+		buf.append(currentNode.name_);
+		buf.append("</printer>");
+	}
+
 }

@@ -18,4 +18,10 @@ public class Workstation extends Node{
 		buf.append(" [Workstation]");
 	}
 
+	private void printOnXML(StringBuffer buf, Node currentNode) {
+		buf.append("<workstation>");
+		buf.append(currentNode.name_);
+		buf.append("</workstation>");
+	}
+
 }

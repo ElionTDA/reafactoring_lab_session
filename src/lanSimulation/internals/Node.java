@@ -146,36 +146,23 @@ Construct a <em>Node</em> with given #type and #name, and which is linked to #ne
 	 * @param network TODO
 	 * @param buf TODO
 	 */
-	public void printXMLOn (Network network, StringBuffer buf) {
+	public void printXMLOnBucle (Network network, StringBuffer buf) {
 		assert network.isInitialized();
 	
 		Node currentNode = this;
 		buf.append("<?xml version=\"1.0\" encoding=\"UTF-8\"?>\n\n<network>");
 		do {
 			buf.append("\n\t");
-			switch (currentNode.type_) {
-			case Node.NODE:
-				buf.append("<node>");
-				buf.append(currentNode.name_);
-				buf.append("</node>");
-				break;
-			case Node.WORKSTATION:
-				buf.append("<workstation>");
-				buf.append(currentNode.name_);
-				buf.append("</workstation>");
-				break;
-			case Node.PRINTER:
-				buf.append("<printer>");
-				buf.append(currentNode.name_);
-				buf.append("</printer>");
-				break;
-			default:
-				buf.append("<unknown></unknown>");;
-				break;
-			};
+			printOnXML(buf, currentNode);
 			currentNode = currentNode.nextNode_;
 		} while (currentNode != this);
 		buf.append("\n</network>");
+	}
+
+	private void printOnXML(StringBuffer buf, Node currentNode) {
+		buf.append("<node>");
+		buf.append(currentNode.name_);
+		buf.append("</node>");
 	}
 
 }
