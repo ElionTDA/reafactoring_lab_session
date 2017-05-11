@@ -5,20 +5,22 @@ public class Workstation extends Node{
 	public Workstation(byte type, String name) {
 		 		super(type, name);
 	}
-
-	private void printOn(StringBuffer buf, Node currentNode) {
+	
+	@Override
+	protected void printOn(StringBuffer buf, Node currentNode) {
 		buf.append("Workstation ");
 		buf.append(currentNode.name_);
 		buf.append(" [Workstation]");
 	}
 
-	private void printOnHTML(StringBuffer buf, Node currentNode) {
+	@Override
+	public void printOnHTML(StringBuffer buf, Node currentNode) {
 		buf.append("Workstation ");
 		buf.append(currentNode.name_);
 		buf.append(" [Workstation]");
 	}
-
-	private void printOnXML(StringBuffer buf, Node currentNode) {
+	@Override
+	public void printOnXML(StringBuffer buf, Node currentNode) {
 		buf.append("<workstation>");
 		buf.append(currentNode.name_);
 		buf.append("</workstation>");

@@ -101,15 +101,17 @@ Construct a <em>Node</em> with given #type and #name, and which is linked to #ne
 		assert network.isInitialized();
 		Node currentNode = this;
 		do {
-			printOn(buf, currentNode);
+			currentNode.printOn(buf, currentNode);
 			buf.append(" -> ");
 			currentNode = currentNode.nextNode_;
 		} while (currentNode != this);
 		buf.append(" ... ");
 	}
 
-	private void printOn(StringBuffer buf, Node currentNode) {
-		printOnHTML(buf, currentNode);
+	protected void printOn(StringBuffer buf, Node currentNode) {
+		buf.append("Node ");
+		buf.append(currentNode.name_);
+		buf.append(" [Node]");
 	}
 
 
@@ -127,14 +129,14 @@ Construct a <em>Node</em> with given #type and #name, and which is linked to #ne
 		buf.append("\n\n<UL>");
 		do {
 			buf.append("\n\t<LI> ");
-			printOnHTML(buf, currentNode);
+			currentNode.printOnHTML(buf, currentNode);
 			buf.append(" </LI>");
 			currentNode = currentNode.nextNode_;
 		} while (currentNode != this);
 		buf.append("\n\t<LI>...</LI>\n</UL>\n\n</BODY>\n</HTML>\n");
 	}
 
-	private void printOnHTML(StringBuffer buf, Node currentNode) {
+	protected void printOnHTML(StringBuffer buf, Node currentNode) {
 		buf.append("Node ");
 		buf.append(currentNode.name_);
 		buf.append(" [Node]");
@@ -153,13 +155,13 @@ Construct a <em>Node</em> with given #type and #name, and which is linked to #ne
 		buf.append("<?xml version=\"1.0\" encoding=\"UTF-8\"?>\n\n<network>");
 		do {
 			buf.append("\n\t");
-			printOnXML(buf, currentNode);
+			currentNode.printOnXML(buf, currentNode);
 			currentNode = currentNode.nextNode_;
 		} while (currentNode != this);
 		buf.append("\n</network>");
 	}
 
-	private void printOnXML(StringBuffer buf, Node currentNode) {
+	protected void printOnXML(StringBuffer buf, Node currentNode) {
 		buf.append("<node>");
 		buf.append(currentNode.name_);
 		buf.append("</node>");
