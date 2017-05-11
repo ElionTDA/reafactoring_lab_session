@@ -13,4 +13,10 @@ public class Printer extends Node{
 		buf.append(" [Printer]");
 	}
 
+	private void printOnHTML(StringBuffer buf, Node currentNode) {
+		buf.append("Printer ");
+		buf.append(currentNode.name_);
+		buf.append(" [Printer]");
+	}
+
 }

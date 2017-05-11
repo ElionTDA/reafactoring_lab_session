@@ -215,7 +215,7 @@ the tests should work as expected.
 			buf.append("---------------------------------ASCII------------------------------------------\n");
 			network.firstNode_.printOnBucle(network, buf);
 			buf.append("\n\n---------------------------------HTML------------------------------------------\n");
-			network.firstNode_.printHTMLOn(network, buf);
+			network.firstNode_.printHTMLOnBucle(network, buf);
 			buf.append("\n\n---------------------------------XML------------------------------------------\n");
 			network.firstNode_.printXMLOn(network, buf);
 			generateOutput.write(buf.toString());

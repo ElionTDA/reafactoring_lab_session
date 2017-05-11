@@ -109,9 +109,7 @@ Construct a <em>Node</em> with given #type and #name, and which is linked to #ne
 	}
 
 	private void printOn(StringBuffer buf, Node currentNode) {
-		buf.append("Node ");
-		buf.append(currentNode.name_);
-		buf.append(" [Node]");
+		printOnHTML(buf, currentNode);
 	}
 
 
@@ -121,7 +119,7 @@ Construct a <em>Node</em> with given #type and #name, and which is linked to #ne
 	 * @param network TODO
 	 * @param buf TODO
 	 */
-	public void printHTMLOn (Network network, StringBuffer buf) {
+	public void printHTMLOnBucle (Network network, StringBuffer buf) {
 		assert network.isInitialized();
 	
 		buf.append("<HTML>\n<HEAD>\n<TITLE>LAN Simulation</TITLE>\n</HEAD>\n<BODY>\n<H1>LAN SIMULATION</H1>");
@@ -129,11 +127,17 @@ Construct a <em>Node</em> with given #type and #name, and which is linked to #ne
 		buf.append("\n\n<UL>");
 		do {
 			buf.append("\n\t<LI> ");
-			printOn(buf, currentNode);
+			printOnHTML(buf, currentNode);
 			buf.append(" </LI>");
 			currentNode = currentNode.nextNode_;
 		} while (currentNode != this);
 		buf.append("\n\t<LI>...</LI>\n</UL>\n\n</BODY>\n</HTML>\n");
+	}
+
+	private void printOnHTML(StringBuffer buf, Node currentNode) {
+		buf.append("Node ");
+		buf.append(currentNode.name_);
+		buf.append(" [Node]");
 	}
 
 	/**
